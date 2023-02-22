@@ -1,0 +1,5 @@
+name: 'web_name'
+port: 8021
+userSrv:
+  host: '127.0.0.1'
+  port: 50051

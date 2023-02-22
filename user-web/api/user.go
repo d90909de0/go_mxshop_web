@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"go_mxshop_web/user-web/global"
 	"go_mxshop_web/user-web/proto"
 	"go_mxshop_web/user-web/response"
 	"google.golang.org/grpc"
@@ -36,8 +37,9 @@ func HandleGrpcErrorToHttp(err error, c *gin.Context) {
 }
 
 func GetUserList(ctx *gin.Context) {
-	ip := "127.0.0.1"
-	port := 50051
+
+	ip := global.ServerConfig.UserSrv.Host
+	port := global.ServerConfig.UserSrv.Port
 	zap.S().Info("获取用户列表页")
 	conn, err := grpc.Dial(fmt.Sprintf("%s:%d", ip, port), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {

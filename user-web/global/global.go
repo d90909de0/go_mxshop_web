@@ -1,12 +1,14 @@
 package global
 
 import (
+	"go_mxshop_web/user-web/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var (
-	DB *gorm.DB
+	DB           *gorm.DB
+	ServerConfig *config.ServerConfig
 )
 
 func init() {
@@ -17,4 +19,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
+	ServerConfig = &config.ServerConfig{}
 }
