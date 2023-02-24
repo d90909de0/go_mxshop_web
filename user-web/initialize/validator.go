@@ -10,7 +10,7 @@ import (
 	en_translations "github.com/go-playground/validator/v10/translations/en"
 	zh_translations "github.com/go-playground/validator/v10/translations/zh"
 	"go_mxshop_web/user-web/global"
-	validator2 "go_mxshop_web/validator"
+	validator2 "go_mxshop_web/user-web/validator"
 	"reflect"
 	"strings"
 )
