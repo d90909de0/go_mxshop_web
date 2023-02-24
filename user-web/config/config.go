@@ -4,6 +4,11 @@ type ServerConfig struct {
 	Name    string        `mapstructure:"name"`
 	Port    int           `mapstructure:"port"`
 	UserSrv UserSrvConfig `mapstructure:"userSrv"`
+	JwtInfo JwtConfig     `mapstructure:"jwt"`
+}
+
+type JwtConfig struct {
+	SigningKey string `mapstructure:"key"`
 }
 
 type UserSrvConfig struct {

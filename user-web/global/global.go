@@ -1,6 +1,7 @@
 package global
 
 import (
+	ut "github.com/go-playground/universal-translator"
 	"go_mxshop_web/user-web/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -9,6 +10,7 @@ import (
 var (
 	DB           *gorm.DB
 	ServerConfig *config.ServerConfig
+	Trans        ut.Translator
 )
 
 func init() {

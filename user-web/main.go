@@ -12,6 +12,7 @@ func main() {
 	initialize.Loggers()
 	initialize.InitConfig()
 	engine := initialize.Routers()
+	initialize.InitValidator()
 
 	port := global.ServerConfig.Port
 	zap.S().Infof("启动服务器，端口：%d", port)
