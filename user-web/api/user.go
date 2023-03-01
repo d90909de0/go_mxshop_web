@@ -6,6 +6,7 @@ import (
 	jwt2 "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	_ "github.com/mbobakov/grpc-consul-resolver"
 	"go.uber.org/zap"
 	"go_mxshop_web/user-web/forms"
 	"go_mxshop_web/user-web/global"
@@ -29,6 +30,7 @@ func HandleGrpcErrorToHttp(err error, c *gin.Context) {
 	}
 
 	if e, ok := status.FromError(err); ok {
+		zap.S().Errorf("HandleGrpcErrorToHttp: %d, %s", e.Code(), e.Message())
 		switch e.Code() {
 		case codes.NotFound:
 			c.JSON(http.StatusNotFound, gin.H{"msg": e.Message()})
@@ -97,9 +99,13 @@ func PassWordLogin(ctx *gin.Context) {
 		return
 	}
 
-	ip := global.ServerConfig.UserSrv.Host
-	port := global.ServerConfig.UserSrv.Port
-	conn, err := grpc.Dial(fmt.Sprintf("%s:%d", ip, port), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	// ip := global.ServerConfig.UserSrv.Host
+	// port := global.ServerConfig.UserSrv.Port
+	// conn, err := grpc.Dial(fmt.Sprintf("%s:%d", ip, port), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("consul://192.168.168.180:8500/user-srv?wait=14s&tag=manual",
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
+	)
 	if err != nil {
 		zap.S().Errorw("【GetUserList】 连接 【用户服务】失败", "msg", err.Error())
 	}
@@ -171,9 +177,13 @@ func CreateUser(ctx *gin.Context) {
 		return
 	}
 
-	ip := global.ServerConfig.UserSrv.Host
-	port := global.ServerConfig.UserSrv.Port
-	conn, err := grpc.Dial(fmt.Sprintf("%s:%d", ip, port), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	//ip := global.ServerConfig.UserSrv.Host
+	//port := global.ServerConfig.UserSrv.Port
+	conn, err := grpc.Dial(
+		"consul://192.168.168.180:8500/user-srv?wait=14s&tag=manual",
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
+	)
 	if err != nil {
 		zap.S().Errorw("【GetUserList】 连接 【用户服务】失败", "msg", err.Error())
 	}

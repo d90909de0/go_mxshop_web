@@ -6,3 +6,10 @@ userSrv:
 
 jwt:
   key: '44Ua#b&HKzNtYUIh'
+
+nacos:
+  host: '192.168.168.180'
+  port: 8848
+  namespaceId: '753011ff-18b3-4d81-aa90-330d2c392d86'
+  dataId: 'user-srv'
+  group: 'dev'
